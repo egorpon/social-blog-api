@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 
 @api_view(["GET"])
 def post_list(request):
-    post = Post.objects.all()
+    post = Post.objects.prefetch_related('tag','comments')
     serializer = PostSerializer(post, many=True)
     return Response(serializer.data)
 

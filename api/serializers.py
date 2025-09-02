@@ -31,6 +31,7 @@ class PostSerializer(serializers.ModelSerializer):
             "total_comments",
         )
 
+
 class CommentSerializer(serializers.ModelSerializer):
     comment = serializers.SerializerMethodField()
 
@@ -44,10 +45,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostDetailSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-    tag = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
-    description = serializers.SerializerMethodField()
     comments = CommentSerializer(many=True, read_only=True)
+    tag = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
+    title = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
 
     def get_title(self, obj):
         title = obj.title
