@@ -10,11 +10,11 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_title(self, obj):
         title = obj.title
-        return title[:30] + "..." if len(title) > 30 else ""
+        return title[:30] + "..." if len(title) > 30 else title
 
     def get_description(self, obj):
         desc = obj.description
-        return desc[:60] + "..." if len(desc) > 60 else ""
+        return desc[:60] + "..." if len(desc) > 60 else desc
 
     def get_total_comments(self, obj):
         return obj.comments.count()
@@ -45,10 +45,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostDetailSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
     tag = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
+
     title = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
+    total_comments = serializers.SerializerMethodField()
 
     def get_title(self, obj):
         title = obj.title
@@ -57,7 +58,15 @@ class PostDetailSerializer(serializers.ModelSerializer):
     def get_description(self, obj):
         description = obj.description
         return description[:60] + "..." if len(description) > 60 else description
+    
+    def get_total_comments(self, obj):
+        return obj.comments.count()
 
     class Meta:
         model = Post
-        fields = ("title", "description", "created_at", "user", "tag", "comments")
+        fields = ("title", "description", "created_at", "user", "tag", "total_comments")
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('name', 'slug')
