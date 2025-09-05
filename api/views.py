@@ -53,18 +53,13 @@ class PostCommentsListCreateAPIView(generics.ListCreateAPIView):
 class PostCommentsDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     permission_classes = [isAdminOrOwner]
+    lookup_url_kwarg = 'comment_id'
 
     def get_serializer_class(self):
         self.serializer_class = CommentSerializer
         if self.request.method in ["PUT","PATCH"]:
             self.serializer_class = CommentCreateUpdateSerializer
         return super().get_serializer_class()
-
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        post = self.kwargs.get("post_id")
-        return qs.filter(post__id=post)
 
 
 class TagListAPIView(generics.ListAPIView):
