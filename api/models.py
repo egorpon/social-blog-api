@@ -25,8 +25,8 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tag = models.ManyToManyField(Tag, related_name='posts')
     created_at = models.DateTimeField(auto_now_add=True)
-    description = models.TextField()
-    image = models.ImageField(upload_to='posts/', blank= True)
+    description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='posts/', blank= True, null=True)
 
     def __str__(self):
         return f'{self.title} by {self.user.username}'

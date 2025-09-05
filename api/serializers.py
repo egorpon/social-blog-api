@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Post, Comment, Tag
 
 
-class PostSerializer(serializers.ModelSerializer):
+class PostListSerializer(serializers.ModelSerializer):
     tag = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
     title = serializers.SerializerMethodField()
     description = serializers.SerializerMethodField()
@@ -25,48 +25,65 @@ class PostSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "description",
-            "created_at",
             "user",
+            "created_at",
             "tag",
             "total_comments",
         )
 
 
+class PostCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ("title", "description", "tag")
+
+
 class CommentSerializer(serializers.ModelSerializer):
-    comment = serializers.SerializerMethodField()
-
-    def get_comment(self, obj):
-        text = obj.text
-        return text[:80] + "..." if len(text) > 80 else text
-
+    comment = serializers.CharField(source='text')
     class Meta:
         model = Comment
-        fields = ("user", "comment")
+        fields = ("id","user", "comment")
+
+
+class CommentCreateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ("text",)
 
 
 class PostDetailSerializer(serializers.ModelSerializer):
     tag = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
 
-    title = serializers.SerializerMethodField()
-    description = serializers.SerializerMethodField()
     total_comments = serializers.SerializerMethodField()
 
-    def get_title(self, obj):
-        title = obj.title
-        return title[:30] + "..." if len(title) > 30 else title
-
-    def get_description(self, obj):
-        description = obj.description
-        return description[:60] + "..." if len(description) > 60 else description
-    
     def get_total_comments(self, obj):
         return obj.comments.count()
 
     class Meta:
         model = Post
-        fields = ("title", "description", "created_at", "user", "tag", "total_comments")
+        fields = (
+            "title",
+            "description",
+            "user",
+            "created_at",
+            "tag",
+            "image",
+            "total_comments",
+        )
+
+
+class PostUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            "title",
+            "description",
+            "tag",
+            "image",
+        )
+
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ('name', 'slug')
+        fields = ("name", "slug")

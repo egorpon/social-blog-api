@@ -1,0 +1,55 @@
+POST http://127.0.0.1:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"secret"
+}
+
+###
+POST http://127.0.0.1:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzE2NzkxNCwiaWF0IjoxNzU3MDgxNTE0LCJqdGkiOiJhMmRkYzQ3ZjY5ZDI0ODM2ODNjYzVjYmMxYTM5Y2ExOSIsInVzZXJfaWQiOiIxIn0.m5hCYKjlzYDiR4HFfYYtX40bQvNyXPEXekmWkjAVDEI"
+}
+
+###
+GET http://127.0.0.1:8000/posts/ HTTP/1.1
+
+
+
+###
+POST http://127.0.0.1:8000/posts/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MDkxOTk4LCJpYXQiOjE3NTcwOTE2OTgsImp0aSI6IjI5MDEzMDVkZWIzMDRhNTdiYzY0ZDgyMmIxN2ExZTBlIiwidXNlcl9pZCI6IjMifQ.pfC0Vq21Cyez0S283YLEqCckpxiElpiC2SaD-ZmYouo
+
+{
+    "title":"test",
+    "description":"test test test",
+    "tag": [1,2]
+}   
+
+###
+GET http://127.0.0.1:8000/posts/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MDkyMTM4LCJpYXQiOjE3NTcwOTE4MzgsImp0aSI6IjNhYmRjOGQyNjg4ZjRlZWQ5NzgyMmIzZmQ1ZGZmM2VlIiwidXNlcl9pZCI6IjQifQ.Asi7V7lOavJ-G-OuUYSImjYE3g572VyF6Nh6kkW4QFY
+
+###
+DELETE http://127.0.0.1:8000/posts/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MDkyMTM4LCJpYXQiOjE3NTcwOTE4MzgsImp0aSI6IjNhYmRjOGQyNjg4ZjRlZWQ5NzgyMmIzZmQ1ZGZmM2VlIiwidXNlcl9pZCI6IjQifQ.Asi7V7lOavJ-G-OuUYSImjYE3g572VyF6Nh6kkW4QFY
+
+###
+PATCH  http://127.0.0.1:8000/posts/11 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MDkyMTM4LCJpYXQiOjE3NTcwOTE4MzgsImp0aSI6IjNhYmRjOGQyNjg4ZjRlZWQ5NzgyMmIzZmQ1ZGZmM2VlIiwidXNlcl9pZCI6IjQifQ.Asi7V7lOavJ-G-OuUYSImjYE3g572VyF6Nh6kkW4QFY
+
+{
+  
+  "tag": [
+    2,3
+  ]
+}
+
+###
+DELETE  http://127.0.0.1:8000/posts/1/comments/10 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MDk1MDU2LCJpYXQiOjE3NTcwOTQ3NTYsImp0aSI6IjU5NDc0MjBkMjc4ZTQ3ZGU5MTY4YTg1YTQxOTg1OGM0IiwidXNlcl9pZCI6IjEifQ.rsvdy9MGkaXBTuZ85Icv34bIOkfM1h75dUausfPiuLU
