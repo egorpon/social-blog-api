@@ -39,10 +39,11 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    comment = serializers.CharField(source='text')
+    comment = serializers.CharField(source="text")
+
     class Meta:
         model = Comment
-        fields = ("id","user", "comment")
+        fields = ("id", "user", "datetime", "comment")
 
 
 class CommentCreateUpdateSerializer(serializers.ModelSerializer):

@@ -34,6 +34,7 @@ class Post(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default='DELETED USER')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    datetime = models.DateTimeField(auto_now_add=True)
     text = models.TextField(max_length=500)
 
     def __str__(self):

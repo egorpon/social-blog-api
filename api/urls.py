@@ -7,5 +7,4 @@ urlpatterns = [
     path('posts/<int:post_id>/comments', view=views.PostCommentsListCreateAPIView.as_view(), name='post-comments'),
     path('posts/<int:post_id>/comments/<int:comment_id>', view=views.PostCommentsDetailAPIView.as_view(), name='post-comments-detail'),
     path('tags/', view=views.TagListAPIView.as_view(), name='tags'),
-    path('tags/<slug:slug>/posts', view=views.TagPostsListAPIView.as_view(), name='tag-posts')
 ]
