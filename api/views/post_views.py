@@ -10,7 +10,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from api.permissions import isAdminOrOwner
 from django_filters.rest_framework import DjangoFilterBackend
-from api.filters import PostFilter
+from api.filters import PostFilter, MultiTagFilter
 from rest_framework import filters
 # Create your views here.
 
@@ -18,9 +18,10 @@ from rest_framework import filters
 class PostListCreateAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.prefetch_related("tag", "comments")
     permission_classes = [AllowAny]
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_class = PostFilter
     ordering_fields = ["created_at"]
+    search_fields  = ['title','description']
 
     def get_serializer_class(self):
         self.serializer_class = PostSerializer

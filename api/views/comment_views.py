@@ -50,10 +50,8 @@ class PostCommentsDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        post_id = self.kwargs.get('post_id')
-        if post_id:
-            qs = qs.filter(post__id = post_id)
-        return qs
+        post_id = self.kwargs.get("post_id")
+        return qs.filter(post__id=post_id)
 
     def get_serializer_class(self):
         self.serializer_class = CommentSerializer

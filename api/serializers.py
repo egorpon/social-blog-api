@@ -39,9 +39,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_user(self, obj):
         if obj.user is None:
-            return 'DELETED USER'
-        return obj.user.username
-
+            return "DELETED USER"
+        return obj.user.id
 
 
 class CommentCreateUpdateSerializer(serializers.ModelSerializer):
