@@ -38,7 +38,14 @@ class PostAPITest(APITestCase):
         self.post_comments = reverse(
             "post-comments", kwargs={"post_id": self.admin_post.id}
         )
-        self.post_comments_detail = reverse(
+        self.post_user_comments_detail = reverse(
+            "post-comment-details",
+            kwargs={
+                "post_id": self.admin_post.id,
+                "comment_id": self.user_post_comment.id,
+            },
+        )
+        self.post_admin_comments_detail = reverse(
             "post-comment-details",
             kwargs={
                 "post_id": self.admin_post.id,
@@ -57,74 +64,82 @@ class PostAPITest(APITestCase):
         response = self.client.post(self.posts, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_user_can_all_posts(self):
+    def test_user_can_view_all_posts(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.posts)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_can_retrieve_any_post(self):
         self.client.login(username=self.user.username, password="test")
+
         response = self.client.get(self.admin_post_details)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(self.user_post_details)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_can_delete_only_own_post(self):
         self.client.login(username=self.user.username, password="test")
+
         response = self.client.delete(self.user_post_details)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-    def test_user_cannot_delete_other_users_post(self):
-        self.client.login(username=self.user.username, password="test")
         response = self.client.delete(self.admin_post_details)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_user_can_update_only_own_posts(self):
+    def test_user_can_update_only_his_own_posts(self):
         self.client.login(username=self.user.username, password="test")
+
         data = {
             "title": "updated title",
             "description": "updated description",
             "tag": [self.tag_js.id],
         }
+
         response = self.client.put(self.user_post_details, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_user_cannot_update_other_users_post(self):
-        self.client.login(username=self.user.username, password="test")
-        data = {
-            "title": "updated title",
-            "description": "updated description",
-            "tag": [self.tag_js.id],
-        }
 
         response = self.client.put(self.admin_post_details, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_user_cannot_partial_update_other_users_post(self):
+
+    def test_user_can_partial_update_only_own_posts(self):
         self.client.login(username=self.user.username, password="test")
         data = {
-            "title": "updated title",
-            "description": "updated description",
             "tag": [self.tag_js.id],
         }
+        response = self.client.patch(self.user_post_details, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.patch(self.admin_post_details, data)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_user_can_partial_update_own_posts(self):
-        self.client.login(username=self.user.username, password="test")
-        data = {"tag": [self.tag_js.id]}
-
-        response = self.client.patch(self.user_post_details, data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_user_can_see_all_post_comments(self):
+    def test_user_can_view_all_post_comments(self):
         self.client.login(username=self.user.username, password="test")
         response = self.client.get(self.post_comments)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_can_create_comments(self):
         self.client.login(username=self.user.username, password="test")
-        data = {
-            "text":'test'
-        }
+        data = {"text": "test"}
         response = self.client.post(self.post_comments, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_user_can_update_and_partial_update_his_own_comments(self):
+        self.client.login(username=self.user.username, password="test")
+        data = {"text": "test"}
+
+        response = self.client.put(self.post_user_comments_detail, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.patch(self.post_admin_comments_detail, data)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_can_delete_his_own_comments(self):
+        self.client.login(username=self.user.username, password="test")
+
+        response = self.client.delete(self.post_user_comments_detail)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = self.client.delete(self.post_admin_comments_detail)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
