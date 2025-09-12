@@ -24,9 +24,10 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class PostCreateUpdateSerializer(serializers.ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Post
-        fields = ("title", "description", "tag", "image")
+        fields = ("id","title", "description", "tag", "image")
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -39,14 +40,15 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_user(self, obj):
         if obj.user is None:
-            return "DELETED USER"
+            return None
         return obj.user.id
 
 
 class CommentCreateUpdateSerializer(serializers.ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Comment
-        fields = ("text",)
+        fields = ("id","text",)
 
 
 class TagSerializer(serializers.ModelSerializer):
