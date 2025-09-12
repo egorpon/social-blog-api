@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post, Comment, Tag
+from .models import Post, Comment, Tag, User
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -55,3 +55,8 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ("name", "slug")
+
+class UserDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ()
