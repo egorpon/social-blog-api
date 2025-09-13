@@ -14,6 +14,5 @@ class UserDeleteAPIView(generics.DestroyAPIView):
     def perform_destroy(self, instance):
         email = instance.email
         username = instance.username
-        instance.delete()
+        super().perform_destroy(instance)
         send_delete_notification_email.delay(username=username, email=email)
-        return super().perform_destroy(instance)

@@ -1,6 +1,7 @@
 from django.core.management import BaseCommand
 from api.models import Post, User, Comment, Tag
 from django.utils import lorem_ipsum
+from django.utils.text import slugify
 import random
 
 
@@ -14,14 +15,15 @@ class Command(BaseCommand):
             user = User.objects.create_superuser(username="admin", password="secret")
 
         for name in ["Python", "C++", "JavaScript"]:
-            Tag.objects.create(name=name)
+            slug = slugify(name)
+            Tag.objects.get_or_create(name=name, slug=slug)
 
         tags = Tag.objects.all()
         for i in range(7):
             selected_tags= random.sample(list(tags), random.randint(1,3))
             post = Post.objects.create(
-                    title=lorem_ipsum.paragraph(),
-                    description=lorem_ipsum.paragraph(),
+                    title=lorem_ipsum.paragraph()[:20],
+                    description=lorem_ipsum.paragraph()[:100],
                     user=user,
                 )
             post.tag.add(*selected_tags)
@@ -31,5 +33,5 @@ class Command(BaseCommand):
             for post in random.sample(list(posts), 1):
                 for _ in range(random.randint(1,4)):
                     Comment.objects.create(
-                        user=user, post=post, text=lorem_ipsum.paragraph()
+                        user=user, post=post, text=lorem_ipsum.paragraph()[:50]
                     )

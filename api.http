@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "username":"john",
-    "password":"test"
+    "password":"secret"
 }
 
 ###
@@ -22,7 +22,7 @@ GET http://127.0.0.1:8000/posts/ HTTP/1.1
 ###
 POST http://127.0.0.1:8000/posts/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3MDkxOTk4LCJpYXQiOjE3NTcwOTE2OTgsImp0aSI6IjI5MDEzMDVkZWIzMDRhNTdiYzY0ZDgyMmIxN2ExZTBlIiwidXNlcl9pZCI6IjMifQ.pfC0Vq21Cyez0S283YLEqCckpxiElpiC2SaD-ZmYouo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3Nzg1ODM3LCJpYXQiOjE3NTc3ODU1MzcsImp0aSI6IjNhODMwYThjODg4OTQyMjhhY2YwODI4YTNkZmZhNDExIiwidXNlcl9pZCI6IjIifQ.GYsexfI36ra-dyFybzVaeDJG71ZRIjkBqDs8DyEQj94
 
 {
     "title":"test",
@@ -56,4 +56,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 ###
 DELETE http://127.0.0.1:8000/user/delete HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3Njg3Mzc2LCJpYXQiOjE3NTc2ODcwNzYsImp0aSI6IjgxYzBiYWQ4MWViMzRkMTViMjJhZWE5MjE5NGIyYzVjIiwidXNlcl9pZCI6IjIifQ.IJoovh6XWbc4xqUJLolcoBmNRi3nsprbD7UuNaDWj14
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU3Nzg2ODE1LCJpYXQiOjE3NTc3ODY1MTUsImp0aSI6ImMyNWRjYzVkZGNhMDRjOTFiYWYwMTNjOTg5YTExNGRiIiwidXNlcl9pZCI6IjUifQ.1YfAFoDoXm7cm-y17KGO9BSbUofJDhPRu9xRYdM3ogI
